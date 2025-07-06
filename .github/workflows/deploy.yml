@@ -12,6 +12,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v4
       
@@ -19,4 +20,30 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache:
+          cache: 'yarn'
+          
+      - name: Install dependencies
+        run: |
+          yarn install --frozen-lockfile
+          yarn cache clean
+          
+      - name: Build project
+        run: yarn build
+        
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'dist/'
+          retention-days: 1
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: Wait for Pages deployment
+        uses: actions/deploy-pages@v3
+        id: deployment
