@@ -23,8 +23,10 @@ jobs:
           cache: 'yarn'
           
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-        
+        run: |
+          yarn install --frozen-lockfile
+          yarn cache clean
+          
       - name: Build project
         run: yarn build
         
@@ -42,6 +44,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - name: Wait for Pages deployment
         uses: actions/deploy-pages@v3
+        id: deployment
