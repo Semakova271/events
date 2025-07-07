@@ -2,29 +2,27 @@ export class Goblin {
   constructor(board) {
     this.board = board;
     this.currentCell = null;
-    this.goblinElement = document.createElement('img');
-    this.goblinElement.src = 'public/goblin.png';
-    this.goblinElement.id = 'goblin';
+    this.goblinElement = document.createElement('div');
+    this.goblinElement.className = 'goblin';
   }
 
   appear() {
     if (this.currentCell) {
-      this.currentCell.removeChild(this.goblinElement);
+      this.goblinElement.remove();
     }
 
-    let newCell;
-    do {
-      newCell = this.board.getRandomCell();
-    } while (newCell === this.currentCell);
-
-    this.currentCell = newCell;
-    this.currentCell.appendChild(this.goblinElement);
+    const newCell = this.board.getRandomCellExcluding(this.currentCell);
+    
+    if (newCell) {
+      this.currentCell = newCell;
+      this.currentCell.append(this.goblinElement);
+    }
   }
 
   disappear() {
-    if (this.currentCell) {
-      this.currentCell.removeChild(this.goblinElement);
-      this.currentCell = null;
+    if (this.currentCell && this.currentCell.contains(this.goblinElement)) {
+      this.goblinElement.remove();
     }
+    this.currentCell = null;
   }
 }
