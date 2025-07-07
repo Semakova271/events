@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: write  # Добавляем разрешение на запись
+  contents: write
 
 jobs:
   build-and-deploy:
@@ -14,7 +14,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        fetch-depth: 0  # Важно для работы с историей коммитов
+        fetch-depth: 0
+        token: ${{ secrets.DEPLOY_TOKEN }}
 
     - name: Setup Node
       uses: actions/setup-node@v3
@@ -31,6 +32,9 @@ jobs:
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        deploy_key: ${{ secrets.DEPLOY_TOKEN }}
         publish_dir: ./dist
-        force_orphan: true  # Создаёт историю коммитов с одним коммитом
+        force_orphan: true
+        keep_files: false
+        user_name: 'GitHub Actions'
+        user_email: 'actions@github.com'
