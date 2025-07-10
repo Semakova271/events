@@ -21,7 +21,7 @@ export class Board {
     }
   }
 
- getRandomCellExcluding(excludedIndex) {
+  getRandomCellExcluding(excludedIndex) {
     const availableCells = this.cells.filter(cell => {
       return cell.dataset.index !== excludedIndex;
     });
