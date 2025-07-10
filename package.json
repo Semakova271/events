@@ -1,40 +1,54 @@
 {
-  "name": "goblin-game",
-  "version": "1.0.0",
-  "license": "MIT",
+  "name": "events-main",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "scripts": {
-    "start": "webpack serve",
-    "build": "webpack --mode production",
-    "lint": "eslint src/js/*.js",
-    "predeploy": "yarn build",
-    "deploy": "gh-pages -d dist"
+    "start": "webpack serve --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
+    "lint": "eslint . --fix",
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "preshow:coverage": "npm run coverage",
+    "show:coverage": "live-server coverage/lcov-report",
+    "preshow:dist": "npm run build",
+    "show:dist": "http-server dist"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",
-    "@babel/eslint-parser": "^7.28.0",
     "@babel/plugin-transform-runtime": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
     "@babel/runtime": "^7.27.6",
     "autoprefixer": "^10.4.21",
     "babel-loader": "^10.0.0",
-    "copy-webpack-plugin": "^13.0.0",
+    "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^7.1.2",
-    "cssnano": "^7.0.7",
-    "eslint": "7.32.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-webpack-plugin": "3.2.0",
-    "gh-pages": "^4.0.0",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.3",
+    "mini-css-extract-plugin": "^2.9.2",
     "postcss": "^8.5.6",
-    "postcss-loader": "^8.1.1",
+    "postcss-cli": "^11.0.1",
+    "postcss-csso": "^6.0.1",
     "style-loader": "^4.0.0",
-    "webpack": "^5.99.9",
+    "terser-webpack-plugin": "^5.3.14",
+    "webpack": "^5.100.0",
     "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.2"
-  },
-  "dependencies": {
-    "mini-css-extract-plugin": "^2.9.2"
+    "webpack-dev-server": "^5.2.2",
+    "webpack-merge": "^6.0.1"
   }
 }

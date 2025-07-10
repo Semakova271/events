@@ -1,6 +1,12 @@
 export class Board {
   constructor() {
-    this.boardElement = document.getElementById('game-board');
+    this.boardElement = document.getElementById('board');
+    if (!this.boardElement) {
+      this.boardElement = document.createElement('div');
+      this.boardElement.id = 'board';
+      document.getElementById('root').appendChild(this.boardElement);
+    }
+    
     this.cells = [];
     this.createBoard();
   }
@@ -8,19 +14,23 @@ export class Board {
   createBoard() {
     for (let i = 0; i < 16; i++) {
       const cell = document.createElement('div');
-      cell.classList.add('cell');
+      cell.className = 'cell';
       cell.dataset.index = i;
-      this.boardElement.append(cell);
       this.cells.push(cell);
+      this.boardElement.appendChild(cell);
     }
   }
 
-  getRandomCell() {
-    return this.cells[Math.floor(Math.random() * this.cells.length)];
-  }
+ getRandomCellExcluding(excludedIndex) {
+    const availableCells = this.cells.filter(cell => {
+      return cell.dataset.index !== excludedIndex;
+    });
 
-  getRandomCellExcluding(excludedCell) {
-    const availableCells = this.cells.filter(cell => cell !== excludedCell);
-    return availableCells[Math.floor(Math.random() * availableCells.length)];
+    if (availableCells.length === 0) {
+      return this.getRandomCell(); 
+    }
+
+    const randomIndex = Math.floor(Math.random() * availableCells.length);
+    return availableCells[randomIndex];
   }
 }
