@@ -9,7 +9,7 @@
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "lint": "npx eslint . --fix",
+    "lint": "eslint . --config eslint.config.js --fix",
     "test": "jest",
     "coverage": "jest --coverage",
     "preshow:coverage": "npm run coverage",

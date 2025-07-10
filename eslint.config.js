@@ -1,6 +1,4 @@
-import js from '@eslint/js';
-import globals from 'globals';
-
+// eslint.config.js
 export default [
   {
     ignores: [
@@ -10,28 +8,10 @@ export default [
       'postcss.config.js'
     ]
   },
-  js.configs.recommended,
   {
-    files: ['**/*.js'],
-    languageOptions: {
-      ecmaVersion: 2022,
-      sourceType: 'module',
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-        process: 'readonly',
-        console: 'readonly',
-        setInterval: 'readonly',
-        clearInterval: 'readonly',
-        require: 'readonly',
-        module: 'readonly',
-        __dirname: 'readonly'
-      }
-    },
     rules: {
       'no-console': 'warn',
       'no-unused-vars': 'warn',
-      'no-undef': 'off',
       'quotes': ['error', 'single'],
       'semi': ['error', 'always'],
       'indent': ['error', 2]
