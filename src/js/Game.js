@@ -3,9 +3,8 @@ import { Goblin } from './Goblin.js';
 
 export default class Game {
   constructor() {
-    // Проверка режима разработки
     if (process.env.NODE_ENV === 'development') {
-      //console.log('Development mode checks passed');
+      // Отладочная информация при необходимости
     }
     
     this.createScoreboard();
@@ -15,22 +14,21 @@ export default class Game {
     this.missed = 0;
     this.maxMissed = 5;
     this.isGameActive = true;
+    this.interval = null;
     this.initGame();
   }
 
   createScoreboard() {
     const root = document.getElementById('root');
     
-    // Создаем контейнер для счетчиков
     const scoreboard = document.createElement('div');
     scoreboard.id = 'scoreboard';
     scoreboard.innerHTML = `
       <div>Попадания: <span id="hits">0</span></div>
       <div>Промахи: <span id="misses">0</span></div>
     `;
-    root.appendChild(scoreboard);
+    root.append(scoreboard);
     
-    // Создаем модальное окно
     const modal = document.createElement('div');
     modal.id = 'modal';
     modal.className = 'hidden';
@@ -41,7 +39,7 @@ export default class Game {
         <button id="restart-btn">Играть снова</button>
       </div>
     `;
-    root.appendChild(modal);
+    root.append(modal);
   }
 
   initGame() {
@@ -56,23 +54,21 @@ export default class Game {
       this.restartGame();
     });
 
-    // Запускаем игровой цикл
     this.startGameLoop();
 
-    // Обработчик кликов по доске
     this.board.boardElement.addEventListener('click', (e) => {
       if (!this.isGameActive) return;
       
       const cell = e.target.closest('.cell');
       if (!cell) return;
       
-      // Проверяем, есть ли в ячейке гоблин
       if (cell.contains(this.goblin.goblinElement)) {
+        // Попадание по гоблину
         this.score++;
         this.scoreElement.textContent = this.score;
         this.goblin.disappear();
       } else {
-        // Считаем промах только если кликнули по пустой ячейке
+        // Промах при клике на пустую ячейку
         this.missed++;
         this.missedElement.textContent = this.missed;
         
@@ -86,8 +82,18 @@ export default class Game {
   startGameLoop() {
     this.interval = setInterval(() => {
       if (!this.isGameActive) return;
-      
-      // Перемещаем гоблина - это не считается промахом
+
+      // Промах при пропуске гоблина (бездействии игрока)
+      if (this.goblin.currentCell) {
+        this.missed++;
+        this.missedElement.textContent = this.missed;
+        
+        if (this.missed >= this.maxMissed) {
+          this.gameOver();
+          return;
+        }
+      }
+
       this.goblin.disappear();
       this.goblin.appear();
     }, 1000);
@@ -109,7 +115,8 @@ export default class Game {
     this.scoreElement.textContent = this.score;
     this.missedElement.textContent = this.missed;
     this.modal.classList.add('hidden');
-    this.goblin.disappear();
+    
+    clearInterval(this.interval);
     this.startGameLoop();
   }
 }

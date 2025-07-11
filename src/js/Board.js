@@ -4,7 +4,7 @@ export class Board {
     if (!this.boardElement) {
       this.boardElement = document.createElement('div');
       this.boardElement.id = 'board';
-      document.getElementById('root').appendChild(this.boardElement);
+      document.getElementById('root').append(this.boardElement);
     }
     
     this.cells = [];
@@ -17,7 +17,7 @@ export class Board {
       cell.className = 'cell';
       cell.dataset.index = i;
       this.cells.push(cell);
-      this.boardElement.appendChild(cell);
+      this.boardElement.append(cell);
     }
   }
 
@@ -26,9 +26,7 @@ export class Board {
       return cell.dataset.index !== excludedIndex;
     });
 
-    if (availableCells.length === 0) {
-      return this.getRandomCell(); 
-    }
+    if (availableCells.length === 0) return this.cells[0];
 
     const randomIndex = Math.floor(Math.random() * availableCells.length);
     return availableCells[randomIndex];
