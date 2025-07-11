@@ -5,7 +5,7 @@ export default class Game {
   constructor() {
     // Проверка режима разработки
     if (process.env.NODE_ENV === 'development') {
-      console.log('Development mode checks passed');
+      //console.log('Development mode checks passed');
     }
     
     this.createScoreboard();

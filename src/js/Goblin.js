@@ -25,12 +25,12 @@ export class Goblin {
       // Логирование дубликатов
       if (this.positionHistory.includes(newIndex)) {
         this.duplicateCount++;
-        console.log(`Duplicate position: ${newIndex}, count: ${this.duplicateCount}`);
+        //console.log(`Duplicate position: ${newIndex}, count: ${this.duplicateCount}`);
       } else {
         this.duplicateCount = 0;
       }
       
-      console.log(`New position: ${newIndex}`);
+      //console.log(`New position: ${newIndex}`);
       this.positionHistory.push(newIndex);
       
       // Ограничиваем историю 10 последними позициями
